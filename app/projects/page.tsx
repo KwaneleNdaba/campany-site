@@ -32,7 +32,7 @@ export default function Projects() {
       <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop)` }}
+          style={{ backgroundImage: `url(https://www.atterbury.co.za/wp-content/uploads/2021/03/Mall-of-Africa-outdoor-area.1.jpg)` }}
         />
         <div className="absolute inset-0 bg-slate-900/60" />
         <div className="absolute inset-0 flex items-center justify-center text-center">

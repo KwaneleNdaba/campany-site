@@ -11,7 +11,7 @@ export function Projects() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const displayProjects = isHomePage ? mockProjects.slice(0, 4) : mockProjects;
+  const displayProjects = isHomePage ? mockProjects.slice(0, 8) : mockProjects;
 
   return (
     <section className="py-24 bg-slate-50">

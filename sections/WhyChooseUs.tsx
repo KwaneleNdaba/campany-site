@@ -45,20 +45,16 @@ const differentiators = [
 export function WhyChooseUs() {
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* 3D Building Background Image */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop)',
+            backgroundImage: 'url(https://media.arcadis.com/-/media/project/arcadiscom/com/blogs/global/matt-billerbeck/2023/shopping-malls-will-become-what/shopping-malls-will-become--header.jpg?rev=0eccb19847ba4143bf53c287dd53ba30)',
           }}
         />
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/95 via-slate-900/90 to-slate-900/95" />
-        {/* Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
-        }} />
+        {/* Light Overlay - Very transparent to show background clearly */}
+        <div className="absolute inset-0 bg-slate-900/50" />
       </div>
 
       {/* Decorative Gradient Orbs */}
@@ -137,9 +133,9 @@ export function WhyChooseUs() {
               className="group relative"
             >
               {/* Card */}
-              <div className="relative h-full p-8 bg-white/95 backdrop-blur-sm rounded-3xl border border-white/20 hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 overflow-hidden">
+              <div className="relative h-full p-8 bg-white/10 backdrop-blur-md rounded-3xl border border-white/30 hover:border-amber-500/70 hover:bg-white/20 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 overflow-hidden">
                 {/* Gradient Overlay on Hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
                 
                 {/* Content */}
                 <div className="relative z-10">
@@ -149,17 +145,17 @@ export function WhyChooseUs() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 group-hover:to-slate-600 transition-all duration-300">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition-all duration-300">
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-slate-200 leading-relaxed">
                     {item.description}
                   </p>
 
                   {/* Decorative Arrow */}
-                  <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-400 group-hover:text-amber-600 transition-colors duration-300">
+                  <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-300 group-hover:text-amber-400 transition-colors duration-300">
                     <span>Learn more</span>
                     <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -195,10 +191,10 @@ export function WhyChooseUs() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="mt-20 text-center"
         >
-          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-8 bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20">
+          <div className="inline-flex flex-col sm:flex-row items-center gap-4 p-8 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/30">
             <div className="text-left">
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">Ready to Experience the Difference?</h3>
-              <p className="text-slate-600">Join the leading developers and investors who trust ModernSpaces.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">Ready to Experience the Difference?</h3>
+              <p className="text-slate-200">Join the leading developers and investors who trust ModernSpaces.</p>
             </div>
             <button className="flex-shrink-0 px-8 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 shadow-lg">
               Get Started
