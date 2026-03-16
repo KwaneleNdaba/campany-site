@@ -237,6 +237,7 @@ export default function CommercialPage() {
                 title={project.title}
                 type={project.type}
                 location={project.location}
+                status={project.status}
                 image={project.image}
                 index={index}
               />

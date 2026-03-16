@@ -87,7 +87,7 @@ export default function RetailPage() {
             <div className="flex flex-wrap justify-center gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-full transition-colors"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold rounded-full transition-colors"
               >
                 Partner With Us
                 <ArrowRight className="w-5 h-5" />
@@ -104,7 +104,7 @@ export default function RetailPage() {
       </section>
 
       {/* Live Stats Ticker */}
-      <div className="bg-amber-500 py-4 overflow-hidden">
+      <div className="bg-slate-900 py-12 overflow-hidden">
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -114,8 +114,8 @@ export default function RetailPage() {
               { value: "96%", label: "Tenant Retention" }
             ].map((stat, index) => (
               <div key={index}>
-                <p className="text-3xl md:text-4xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-amber-100 text-sm">{stat.label}</p>
+                <p className="text-3xl md:text-4xl font-bold text-amber-500 mb-1">{stat.value}</p>
+                <p className="text-slate-400 text-sm">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -234,6 +234,7 @@ export default function RetailPage() {
                 title={project.title}
                 type={project.type}
                 location={project.location}
+                status={project.status}
                 image={project.image}
                 index={index}
               />

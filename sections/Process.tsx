@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "../components/SectionHeading";
 import { mockProcessSteps } from "../utilities/mockData";
+import { useRouter } from "next/navigation";
 
 // 3D CSS-based animated icons
 function AnimatedIcon3D({ icon: Icon, index, color }: { icon: any; index: number; color: string }) {
@@ -150,7 +151,12 @@ function AnimatedIcon3D({ icon: Icon, index, color }: { icon: any; index: number
   );
 }
 
+
 export function Process() {
+    const router = useRouter();
+    const handleClick = () => {
+        router.push("/contact");
+    }
   return (
     <section className="py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
       {/* Background Effects */}
@@ -246,8 +252,10 @@ export function Process() {
           <p className="text-lg text-slate-600 mb-6">
             Ready to start your development journey?
           </p>
-          <button className="inline-flex items-center gap-2 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105">
-            Let's Discuss Your Project
+          <button
+          onClick={handleClick}
+          className="inline-flex cursor-pointer items-center gap-2 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105">
+               Let's Discuss Your Project
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

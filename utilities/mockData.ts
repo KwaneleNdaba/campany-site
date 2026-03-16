@@ -156,48 +156,56 @@ export const mockProjects = [
     title: "The Apex Tower",
     type: "Commercial",
     location: "Sandton CBD",
+    status: "Completed",
     image: "https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Lumina Retail Hub",
     type: "Retail",
     location: "Waterfall City",
+    status: "Under Construction",
     image: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Nexus Logistics Park",
     type: "Industrial",
     location: "Midrand",
+    status: "Completed",
     image: "https://images.unsplash.com/photo-1565514020179-026b92b84bb6?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Oasis Residences",
     type: "Residential",
     location: "Rosebank",
+    status: "Completed",
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Eco Park Estate",
     type: "Mixed-Use",
     location: "Pretoria",
+    status: "Coming Soon",
     image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=2071&auto=format&fit=crop",
   },
   {
     title: "Marina Bay Complex",
     type: "Residential",
     location: "Cape Town",
+    status: "Completed",
     image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Innovation Hub",
     type: "Commercial",
     location: "Stellenbosch",
+    status: "Under Construction",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
   },
   {
     title: "Gateway Mall",
     type: "Retail",
     location: "Durban",
+    status: "Completed",
     image: "https://images.unsplash.com/photo-1562141961-eeab5913d2e8?q=80&w=2072&auto=format&fit=crop",
   }
 ];
@@ -244,7 +252,7 @@ export const mockProjectDetails = [
     title: "Lumina Retail Hub",
     category: "Retail",
     location: "Waterfall City",
-    status: "Ongoing",
+    status: "Under Construction",
     description: "A premium shopping destination spanning 80,000 square meters, featuring over 200 retail outlets, entertainment facilities, and dining experiences. Lumina Retail Hub combines modern architecture with sustainable design principles.",
     details: {
       area: "80,000 m²",
@@ -349,7 +357,7 @@ export const mockProjectDetails = [
     title: "Eco Park Estate",
     category: "Mixed-Use",
     location: "Pretoria",
-    status: "Ongoing",
+    status: "Coming Soon",
     description: "An innovative mixed-use development combining residential, commercial, and recreational spaces with extensive green areas. Designed to promote community living while maintaining environmental sustainability.",
     details: {
       area: "145,000 m²",
@@ -419,7 +427,7 @@ export const mockProjectDetails = [
     title: "Innovation Hub",
     category: "Commercial",
     location: "Stellenbosch",
-    status: "Ongoing",
+    status: "Under Construction",
     description: "A cutting-edge tech campus designed to foster innovation and collaboration. Features flexible workspaces, advanced IT infrastructure, and sustainable building practices that inspire creativity.",
     details: {
       area: "68,000 m²",

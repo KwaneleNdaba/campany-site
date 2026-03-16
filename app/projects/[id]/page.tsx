@@ -102,8 +102,10 @@ function ProjectPageContent({ project }: { project: any }) {
                 {/* Tags */}
                 <div className="flex flex-wrap items-center gap-3 mb-6">
                   <span className={`px-4 py-2 text-sm font-bold uppercase rounded-full ${
-                    project.status === "Ongoing" 
+                    project.status === "Under Construction" 
                       ? "bg-amber-500 text-slate-900" 
+                      : project.status === "Coming Soon"
+                      ? "bg-blue-500 text-white"
                       : "bg-emerald-500 text-white"
                   }`}>
                     {project.status}

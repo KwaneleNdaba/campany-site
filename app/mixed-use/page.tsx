@@ -80,7 +80,7 @@ export default function MixedUsePage() {
             backgroundImage: "url(https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=2071&auto=format&fit=crop)"
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/95 via-purple-900/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-transparent" />
         
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
           <motion.div
@@ -118,7 +118,7 @@ export default function MixedUsePage() {
       </section>
 
       {/* Impact Stats */}
-      <section className="bg-gradient-to-r from-purple-900 to-slate-900 py-16">
+      <section className="bg-gradient-to-r from-slate-900 to-slate-800 py-16">
         <div className="container mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
@@ -262,6 +262,7 @@ export default function MixedUsePage() {
                 title={project.title}
                 type={project.type}
                 location={project.location}
+                status={project.status}
                 image={project.image}
                 index={index}
               />

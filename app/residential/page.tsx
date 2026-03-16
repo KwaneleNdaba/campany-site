@@ -98,7 +98,7 @@ export default function ResidentialPage() {
             backgroundImage: "url(https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop)"
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/90 via-emerald-900/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-transparent" />
         
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
           <motion.div
@@ -277,6 +277,7 @@ export default function ResidentialPage() {
                 title={project.title}
                 type={project.type}
                 location={project.location}
+                status={project.status}
                 image={project.image}
                 index={index}
               />
