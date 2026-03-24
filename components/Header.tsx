@@ -41,8 +41,8 @@ export function Header() {
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
-            <Building2 className="w-6 h-6" />
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+            <img src="/logo.jpg" alt="ModernSpaces Logo" className="w-12 h-12 object-contain" />
           </div>
           <span
             className={cn(
