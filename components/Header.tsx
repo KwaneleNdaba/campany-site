@@ -42,7 +42,7 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-20 h-20 rounded-2xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
-            <img src="/logo.jpg" alt="ModernSpaces Logo" className="w-12 h-12 object-contain" />
+            <img src="/PrideRock.png" alt="ModernSpaces Logo" className="w-12 h-12 object-contain" />
           </div>
           <span
             className={cn(
@@ -50,7 +50,7 @@ export function Header() {
               isScrolled || pathname !== "/" ? "text-slate-900" : "text-white"
             )}
           >
-            ModernSpaces
+            Pride Rock
           </span>
         </Link>
 
