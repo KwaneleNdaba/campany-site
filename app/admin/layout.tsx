@@ -10,7 +10,8 @@ import {
   Users,
   LogOut,
   ChevronRight,
-  Home
+  Home,
+  ChevronDown
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -19,29 +20,86 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
-const menuItems = [
+interface MenuItem {
+  icon: any;
+  label: string;
+  href?: string;
+  children?: {
+    icon: any;
+    label: string;
+    href: string;
+  }[];
+}
+
+const menuItems: MenuItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-  { icon: Image, label: 'Hero Carousel', href: '/admin/hero' },
-  { icon: Home, label: 'Categories', href: '/admin/categories' },
-  { icon: FileText, label: 'About Section', href: '/admin/about' },
-  { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
-  { icon: Image, label: 'Visual Showcase', href: '/admin/visual-showcase' },
-  { icon: Settings, label: 'Why Choose Us', href: '/admin/why-choose-us' },
-  { icon: Settings, label: 'Services', href: '/admin/services' },
-  { icon: Users, label: 'Team Members', href: '/admin/team' },
-  { icon: FileText, label: 'CTA Section', href: '/admin/cta-section' },
+  { 
+    icon: Home, 
+    label: 'Home Page',
+    children: [
+      { icon: Image, label: 'Hero Carousel', href: '/admin/home/hero' },
+      { icon: Home, label: 'Categories', href: '/admin/home/categories' },
+      { icon: FileText, label: 'About Section', href: '/admin/home/about' },
+      { icon: Briefcase, label: 'Projects Section', href: '/admin/home/projects' },
+      { icon: Image, label: 'Visual Showcase', href: '/admin/home/visual-showcase' },
+      { icon: Settings, label: 'Why Choose Us', href: '/admin/home/why-choose-us' },
+      { icon: FileText, label: 'CTA Section', href: '/admin/home/cta-section' },
+    ]
+  },
+  { 
+    icon: FileText, 
+    label: 'About Page',
+    children: [
+      { icon: FileText, label: 'Page Content', href: '/admin/about/content' },
+      { icon: Users, label: 'Team Section', href: '/admin/about/team' },
+      { icon: Image, label: 'Gallery', href: '/admin/about/gallery' },
+    ]
+  },
+  { 
+    icon: Settings, 
+    label: 'Services Page',
+    children: [
+      { icon: Settings, label: 'Services List', href: '/admin/services/list' },
+      { icon: FileText, label: 'Page Content', href: '/admin/services/content' },
+    ]
+  },
+  { 
+    icon: Briefcase, 
+    label: 'Projects Page',
+    children: [
+      { icon: Briefcase, label: 'All Projects', href: '/admin/projects/list' },
+      { icon: FileText, label: 'Page Content', href: '/admin/projects/content' },
+    ]
+  },
+  { 
+    icon: FileText, 
+    label: 'Contact Page',
+    children: [
+      { icon: FileText, label: 'Page Content', href: '/admin/contact/content' },
+      { icon: Settings, label: 'Contact Info', href: '/admin/contact/info' },
+    ]
+  },
 ];
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [currentPath, setCurrentPath] = useState('/admin');
+  const [expandedMenus, setExpandedMenus] = useState<string[]>(['Home Page', 'About Page', 'Services Page', 'Projects Page', 'Contact Page']);
+
+  const toggleMenu = (label: string) => {
+    setExpandedMenus(prev => 
+      prev.includes(label) 
+        ? prev.filter(item => item !== label)
+        : [...prev, label]
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed left-0 top-0 h-full bg-slate-900 text-white transition-all duration-300 z-50',
+          'fixed left-0 top-0 h-full bg-slate-900 text-white transition-all duration-300 z-50 overflow-y-auto',
           isSidebarOpen ? 'w-64' : 'w-20'
         )}
       >
@@ -64,28 +122,84 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Menu Items */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPath === item.href;
+            const isExpanded = expandedMenus.includes(item.label);
+            const hasChildren = item.children && item.children.length > 0;
             
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setCurrentPath(item.href)}
-                className={cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors',
-                  isActive
-                    ? 'bg-amber-600 text-white'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+              <div key={item.label}>
+                {/* Parent Menu Item */}
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    onClick={() => setCurrentPath(item.href!)}
+                    className={cn(
+                      'flex items-center gap-3 px-4 py-3 rounded-lg transition-colors',
+                      isActive
+                        ? 'bg-amber-600 text-white'
+                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    )}
+                  >
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    {isSidebarOpen && (
+                      <span className="font-medium">{item.label}</span>
+                    )}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => hasChildren && toggleMenu(item.label)}
+                    className={cn(
+                      'flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors',
+                      'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      {isSidebarOpen && (
+                        <span className="font-medium">{item.label}</span>
+                      )}
+                    </div>
+                    {isSidebarOpen && hasChildren && (
+                      <ChevronDown
+                        className={cn(
+                          'w-4 h-4 transition-transform',
+                          isExpanded && 'rotate-180'
+                        )}
+                      />
+                    )}
+                  </button>
                 )}
-              >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                {isSidebarOpen && (
-                  <span className="font-medium">{item.label}</span>
+
+                {/* Child Menu Items */}
+                {hasChildren && isExpanded && isSidebarOpen && (
+                  <div className="ml-4 mt-1 space-y-1 border-l-2 border-slate-700 pl-2">
+                    {item.children!.map((child) => {
+                      const ChildIcon = child.icon;
+                      const isChildActive = currentPath === child.href;
+                      
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setCurrentPath(child.href)}
+                          className={cn(
+                            'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm',
+                            isChildActive
+                              ? 'bg-amber-600 text-white'
+                              : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                          )}
+                        >
+                          <ChildIcon className="w-4 h-4 flex-shrink-0" />
+                          <span className="font-medium">{child.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 )}
-              </Link>
+              </div>
             );
           })}
         </nav>
@@ -104,27 +218,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main Content */}
       <main
         className={cn(
-          'transition-all duration-300',
+          'min-h-screen transition-all duration-300',
           isSidebarOpen ? 'ml-64' : 'ml-20'
         )}
       >
-        {/* Top Bar */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
-          <h1 className="text-2xl font-bold text-slate-900">Content Management</h1>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              target="_blank"
-              className="px-4 py-2 text-sm text-slate-600 hover:text-slate-900 transition-colors"
-            >
-              View Site
-            </Link>
-            <div className="w-10 h-10 rounded-full bg-amber-500 flex items-center justify-center text-white font-bold">
-              A
-            </div>
-          </div>
-        </header>
-
         {/* Page Content */}
         <div className="p-6">{children}</div>
       </main>

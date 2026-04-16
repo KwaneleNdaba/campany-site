@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { submitContactForm, type ContactFormData } from "@/app/actions/contact";
+import { submitContactForm, type ContactFormData } from "@/app/(site)/actions/contact";
 import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 
 export function ContactForm() {

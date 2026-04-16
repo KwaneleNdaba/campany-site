@@ -2,7 +2,15 @@
 
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { mockStats } from "../utilities/mockData";
+
+interface Statistic {
+  _id: string;
+  value: number;
+  label: string;
+  suffix: string;
+  order: number;
+  isActive: boolean;
+}
 
 interface StatItemProps {
   value: number;
@@ -52,17 +60,44 @@ function StatItem({ value, label, suffix = "", duration = 2 }: StatItemProps) {
 }
 
 export function AnimatedStats() {
+  const [statistics, setStatistics] = useState<Statistic[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStatistics();
+  }, []);
+
+  const fetchStatistics = async () => {
+    try {
+      const response = await fetch('/api/statistics');
+      const data = await response.json();
+      setStatistics(data.statistics || []);
+    } catch (error) {
+      console.error('Error fetching statistics:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading || statistics.length === 0) {
+    return null; // Don't show anything if loading or no statistics
+  }
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-      {mockStats.map((stat, index) => (
+      {statistics.map((stat, index) => (
         <motion.div
-          key={index}
+          key={stat._id}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
         >
-          <StatItem {...stat} />
+          <StatItem 
+            value={stat.value}
+            label={stat.label}
+            suffix={stat.suffix}
+          />
         </motion.div>
       ))}
     </div>

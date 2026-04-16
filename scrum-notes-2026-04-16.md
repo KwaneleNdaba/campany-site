@@ -70,79 +70,260 @@
 - `mongoose` - MongoDB ODM
 - `bcryptjs` - Password hashing
 - `jsonwebtoken` - JWT token management
+- `uploadthing` - File upload service
+- `@uploadthing/react` - UploadThing React components
 - Type definitions for TypeScript support
 
-### 9. Admin Dashboard (Content Management System)
-- Created complete admin panel for managing ALL website content
-- **Dashboard Overview** (`/admin`)
-  - Statistics display (carousel slides, projects, team, page views)
-  - Quick action buttons
-  - Recent activity feed
-  - Responsive sidebar navigation
+### 9. Database Models Created
+- **User Model** (`models/User.ts`) - Authentication
+  - Fields: email, password, name, role
+  - Password hashing with bcrypt
   
-- **Hero Carousel Management** (`/admin/hero`)
-  - Add, edit, and delete carousel slides
-  - Form fields: title, status, location, description, image URL
-  - Live preview of slides
-  - Visual card-based management interface
+- **HeroCarousel Model** (`models/HeroCarousel.ts`)
+  - Fields: title, status, location, description, image, order, isActive
+  - Status enum: TRADING, DEVELOPMENT, COMPLETED, COMING SOON
   
-- **Categories Management** (`/admin/categories`)
-  - Edit property category tiles (Office, Retail, Industrial, Residential, Motor & Other)
-  - Update category titles, images, and links
-  - Visual preview of category cards
+- **Category Model** (`models/Category.ts`)
+  - Fields: title, image, link, order, isActive
   
-- **About Section Management** (`/admin/about`)
-  - Edit main content (title, subtitle, description, image)
-  - Manage features list (add/remove items)
-  - Update statistics (value, label, suffix)
-  - Live image preview
+- **Project Model** (`models/Project.ts`)
+  - Fields: title, type, location, status, image, description
+  - Optional: area, units, completion, architect, features, amenities, gallery
+  - Type enum: Commercial, Retail, Industrial, Residential, Mixed-Use
+  - Status enum: Completed, Under Construction, Coming Soon, Planning
+  - isActive boolean for visibility control
   
-- **Projects Management** (`/admin/projects`)
-  - Full CRUD operations for projects
-  - Filter by project type (Commercial, Retail, Industrial, Residential, Mixed-Use)
-  - Status management (Completed, Under Construction, Coming Soon, Planning)
-  - Type and status statistics dashboard
+- **Service Model** (`models/Service.ts`)
+  - Fields: title, description, icon, image, order, isActive
   
-- **Visual Showcase Management** (`/admin/visual-showcase`) ⭐ NEW
-  - Manage 3-column showcase grid with images, titles, and stats
-  - Edit full-width hero section (title, button, background)
-  - Configure stats banner with 4 statistics
-  - Update two-column section with dual images and content
-  - Live image previews for all sections
-  
-- **Why Choose Us Management** (`/admin/why-choose-us`) ⭐ NEW
-  - Edit section header (badge, title, highlighted word, subtitle)
-  - Manage background image
-  - Add, edit, delete differentiator cards (up to 6 features)
-  - Configure icons, titles, descriptions, and gradient colors
-  - Edit bottom CTA section (title, description, button)
-  - Numbered badge indicators for each feature
-  
-- **Services Management** (`/admin/services`)
-  - Add, edit, and delete services
-  - Fields: title, description, icon name, image
-  - Card-based display with images
-  
-- **Team Management** (`/admin/team`)
-  - Manage team member profiles
-  - Fields: name, role, profile image
-  - Grid layout with profile cards
-  
-- **CTA Section Management** (`/admin/cta-section`) ⭐ NEW
-  - Edit final call-to-action section at bottom of homepage
-  - Configure title, button text, button link
-  - Set background image
-  - Live preview of CTA section
+- **TeamMember Model** (`models/TeamMember.ts`)
+  - Fields: name, role, image, bio, email, linkedIn, order, isActive
 
-- **UI/UX Features**
-  - Collapsible sidebar navigation with 10 menu items
-  - Consistent color scheme (Amber accents, Slate backgrounds)
-  - Form validation and user feedback
-  - Responsive design for all screen sizes
-  - Hover effects and smooth transitions
-  - Icon integration from Lucide React
-  - Image preview before saving
-  - Confirmation dialogs for destructive actions
+### 10. UploadThing Integration
+- **Setup Complete**
+  - Installed UploadThing packages
+  - Created file router (`app/api/uploadthing/core.ts`)
+  - Two endpoints: single image & multi-image (max 10)
+  - Max file size: 4MB per image
+  - API route configured (`app/api/uploadthing/route.ts`)
+  - React helpers created (`lib/uploadthing.ts`)
+  - Styles imported in globals.css
+  
+- **Credentials Added to .env**
+  - UPLOADTHING_SECRET
+  - UPLOADTHING_APP_ID
+
+### 11. Hero Carousel API & Integration
+- **API Routes Created**
+  - GET `/api/hero-carousel` - Fetch all active items
+  - POST `/api/hero-carousel` - Create new item
+  - PUT `/api/hero-carousel/[id]` - Update item
+  - DELETE `/api/hero-carousel/[id]` - Delete item
+  
+- **Admin Page Enhanced** (`app/admin/home/hero/page.tsx`)
+  - Connected to MongoDB API
+  - Real-time data fetching with useEffect
+  - UploadButton integrated for image uploads
+  - Option to upload file OR paste URL
+  - Loading states with spinner
+  - Saving states with feedback
+  - isActive toggle checkbox
+  - Order field for sorting
+  - Image preview with remove option
+  - Empty state when no slides exist
+  - Error handling and user feedback
+  
+- **Frontend Integration** (`sections/Hero.tsx`)
+  - Fetches carousel items from database
+  - Fetches categories from database
+  - Loading state with spinner
+  - Empty state handling
+  - Auto-play carousel (5s interval)
+  - Smooth transitions with Framer Motion
+
+### 12. Categories API & Integration
+- **API Routes Created**
+  - GET `/api/categories` - Fetch all active categories
+  - POST `/api/categories` - Create new category
+  - PUT `/api/categories/[id]` - Update category
+  - DELETE `/api/categories/[id]` - Delete category
+  
+- **Admin Page Enhanced** (`app/admin/home/categories/page.tsx`)
+  - Connected to MongoDB API
+  - Real-time data fetching with useEffect
+  - UploadButton integrated for image uploads
+  - Option to upload file OR paste URL
+  - Add/Edit/Delete functionality
+  - Loading states with spinner
+  - Saving states with feedback
+  - isActive toggle checkbox
+  - Order field for sorting
+  - Image preview with remove option
+  - Empty state when no categories exist
+  - Error handling and user feedback
+  
+- **Frontend Integration** (`sections/Hero.tsx`)
+  - Categories now fetched from database in Hero section
+  - Only active categories displayed
+  - Sorted by order field
+  - Conditional rendering (only shows if categories exist)
+
+### 13. UploadThing Configuration Fixed
+- **Models Created**
+  - AboutContent Model (`models/AboutContent.ts`)
+    - Fields: title, subtitle, description, image, features[], isActive
+  - Statistic Model (`models/Statistic.ts`)
+    - Fields: value, label, suffix, order, isActive
+    
+- **API Routes Created**
+  - GET `/api/about-content` - Fetch active about content
+  - POST `/api/about-content` - Create new about content
+  - PUT `/api/about-content/[id]` - Update about content
+  - DELETE `/api/about-content/[id]` - Delete about content
+  - GET `/api/statistics` - Fetch all active statistics (sorted by order)
+  - POST `/api/statistics` - Create new statistic
+  - PUT `/api/statistics/[id]` - Update statistic
+  - DELETE `/api/statistics/[id]` - Delete statistic
+  
+- **Admin Page Enhanced** (`app/admin/home/about/page.tsx`)
+  - Connected to MongoDB API
+  - Real-time data fetching with useEffect
+  - UploadButton integrated for image uploads
+  - About content management (title, subtitle, description, image)
+  - Features list management (add/remove dynamically)
+  - Statistics CRUD operations (add/edit/delete)
+  - Each statistic has isActive toggle
+  - Order field for custom sorting
+  - Loading and saving states
+  - Error handling and user feedback
+  - Image preview with remove option
+
+- **Frontend Integration**
+  - About Section (`sections/About.tsx`)
+    - Fetches content from database
+    - Dynamic features rendering
+    - Loading state with spinner
+    - Empty state handling
+    - Smooth animations with Framer Motion
+  - AnimatedStats Component (`components/AnimatedStats.tsx`)
+    - Fetches statistics from database
+    - Only shows active statistics
+    - Sorted by order field
+    - Animated counter effect
+    - Responsive grid layout
+
+### 15. Visual Showcase API & Integration
+- **Models Created**
+  - ShowcaseItem Model (`models/ShowcaseItem.ts`) - Grid items
+  - FullWidthSection Model (`models/FullWidthSection.ts`) - Hero section
+  - StatsBanner Model (`models/StatsBanner.ts`) - Banner background only
+  - TwoColumnSection Model (`models/TwoColumnSection.ts`) - Two column layout
+    
+- **API Routes Created**
+  - Showcase Items: GET/POST `/api/showcase-items`, PUT/DELETE `/api/showcase-items/[id]`
+  - Full Width: GET/POST `/api/full-width-section`, PUT `/api/full-width-section/[id]`
+  - Stats Banner: GET/POST `/api/stats-banner`, PUT `/api/stats-banner/[id]`
+  - Two Column: GET/POST `/api/two-column-section`, PUT `/api/two-column-section/[id]`
+  
+- **Admin Page Enhanced** (`app/admin/home/visual-showcase/page.tsx`)
+  - Connected to MongoDB API
+  - UploadButton integrated for all image fields
+  - 4 separate sections with individual save buttons:
+    1. Showcase Grid (3 columns)
+    2. Full Width Hero Section
+    3. Stats Banner (background image only - stats from About section)
+    4. Two Column Section
+  - Each section has isActive toggle
+  - Loading and saving states
+  - Image previews for all uploads
+
+### 17. Home CTA section — model & APIs
+- **Model:** `models/HomeCTASection.ts` — `title`, `buttonText`, `buttonLink`, `backgroundImage`, `isActive`
+- **APIs:** `GET`/`POST` `/api/home-cta`, `PUT` `/api/home-cta/[id]`; `?includeInactive=true` for admin load
+- **Admin:** `app/admin/home/cta-section/page.tsx` — load/save, UploadThing + URL, toast, active toggle
+- **Site:** `sections/HomeCTA.tsx` + used on `app/(site)/page.tsx` (replaces hardcoded CTA block)
+
+### 18. About page — hero banner from CMS (`/api/about-content`)
+**Branch:** `main`
+- **`app/(site)/about/page.tsx`**: Fetches `GET /api/about-content` on mount; hero uses `image`, `title`, and `subtitle` with sensible fallbacks; loading state with spinner; removed unused mock data and icon imports. **`sections/About.tsx`** still provides the main about body (same API).
+
+### 16. Why Choose Us — models & APIs
+- **Models:** `models/WhyChooseUsContent.ts` (section copy, CTA, background, `isActive`), `models/WhyChooseDifferentiator.ts` (icon, title, description, gradient `color`, `order`, `isActive`)
+- **APIs:** `GET`/`POST` `/api/why-choose-us`, `PUT` `/api/why-choose-us/[id]`; `GET`/`POST` `/api/why-choose-differentiators`, `PUT`/`DELETE` `/api/why-choose-differentiators/[id]`; query `?includeInactive=true` for admin lists
+- **Admin:** `app/admin/home/why-choose-us/page.tsx` — loads/saves content and CRUD differentiators; UploadThing background; `react-hot-toast` feedback
+
+### 13. UploadThing Configuration Fixed
+  - UploadThing v7+ requires base64-encoded JSON token
+  - Token includes: apiKey, appId, and regions array
+  - Region set to "pdx1" (Portland, USA)
+  - Token properly formatted in .env file
+  
+- **Upload Configuration**
+  - Max file size: 16MB per image
+  - Single image uploader for hero carousel
+  - Multi-image uploader available (up to 10 images)
+  - Better error handling and user feedback
+  - Success notifications on upload complete
+
+### 9. Admin Dashboard (Content Management System) - RESTRUCTURED
+- Created complete admin panel for managing ALL website pages
+- **New Structure**: Organized by page with nested menus
+- **Removed Header/Footer from Admin**: Clean interface with only sidebar and content
+
+#### Layout Structure
+- `app/(site)/*` - Public pages with Header & Footer
+- `app/admin/*` - Admin pages without Header & Footer
+- Root layout simplified to HTML shell only
+- Site layout handles Header/Footer for public pages
+- Admin layout handles sidebar navigation only
+- **Fixed All Import Paths**:
+  - Converted all relative imports to use `@/` path alias
+  - Updated ContactForm to import from `@/app/(site)/actions/contact`
+  - All pages compiling successfully ✅
+
+#### Dashboard Overview (`/admin`)
+- Statistics display (carousel slides, projects, team, page views)
+- Quick action buttons
+- Recent activity feed
+- Responsive sidebar navigation with expandable menus
+
+#### Home Page Configuration (`/admin/home/*`)
+- **Hero Carousel** (`/admin/home/hero`) - Manage banner slides
+- **Categories** (`/admin/home/categories`) - Property type tiles
+- **About Section** (`/admin/home/about`) - Company info & stats
+- **Projects Section** (`/admin/home/projects`) - Featured projects
+- **Visual Showcase** (`/admin/home/visual-showcase`) - Multi-section showcase
+- **Why Choose Us** (`/admin/home/why-choose-us`) - Differentiators
+- **CTA Section** (`/admin/home/cta-section`) - Call-to-action
+
+#### About Page Configuration (`/admin/about/*`)
+- **Page Content** (`/admin/about/content`) - Main about page content
+- **Team Section** (`/admin/about/team`) - Team members for About page
+- **Gallery** (`/admin/about/gallery`) - Image gallery
+
+#### Services Page Configuration (`/admin/services/*`)
+- **Services List** (`/admin/services/list`) - All services
+- **Page Content** (`/admin/services/content`) - Services page content
+
+#### Projects Page Configuration (`/admin/projects/*`)
+- **All Projects** (`/admin/projects/list`) - Complete project portfolio
+- **Page Content** (`/admin/projects/content`) - Projects page content
+
+#### Contact Page Configuration (`/admin/contact/*`)
+- **Page Content** (`/admin/contact/content`) - Contact page content
+- **Contact Info** (`/admin/contact/info`) - Office locations & details
+
+#### UI/UX Features
+- **Nested Menu Structure**: Each page has its own expandable section
+- All menus expanded by default for easy access
+- Collapsible sidebar navigation
+- Consistent color scheme (Amber accents, Slate backgrounds)
+- Form validation and user feedback
+- Responsive design for all screen sizes
+- Hover effects and smooth transitions
+- Icon integration from Lucide React
+- Image preview before saving
+- Confirmation dialogs for destructive actions
 
 ---
 
@@ -179,21 +360,28 @@
 
 ## Next Steps / TODO
 
-1. ~~Update `.env.local` with actual MongoDB password~~
-2. ~~Test user registration flow~~
-3. ~~Test login flow~~
-4. **Implement admin route protection** (middleware to check authentication)
-5. Connect admin dashboard to MongoDB (save changes to database)
-6. Add image upload functionality (instead of URL input)
-7. Implement search and filter functionality in admin panels
-8. Add pagination for large datasets
-9. Create API endpoints for CRUD operations
-10. Add confirmation modals for delete actions
-11. Implement drag-and-drop reordering for carousel slides
-12. Add rich text editor for descriptions
-13. Create activity logs for admin actions
-14. Add user role management (admin vs editor)
-15. Implement data export functionality
+1. ~~Update `.env.local` with actual MongoDB password~~ ✅
+2. ~~Test user registration flow~~ ✅
+3. ~~Test login flow~~ ✅
+4. ~~Create database models with isActive field~~ ✅
+5. ~~Integrate UploadThing for file uploads~~ ✅
+6. ~~Connect Hero Carousel to MongoDB~~ ✅
+7. ~~Connect Categories to MongoDB~~ ✅
+8. ~~Connect About Section to MongoDB~~ ✅
+9. ~~Connect Visual Showcase to MongoDB~~ ✅
+10. **Implement admin route protection** (middleware to check authentication) - NEXT PRIORITY
+11. Create similar API routes and integrate other sections:
+   - Projects API & integration
+   - Services API & integration
+   - Team Members API & integration
+12. Implement search and filter functionality in admin panels
+13. Add pagination for large datasets
+14. Add confirmation modals for delete actions
+15. Implement drag-and-drop reordering
+16. Add rich text editor for descriptions
+17. Create activity logs for admin actions
+18. Add user role management (admin vs editor)
+19. Implement data export functionality
 
 ---
 

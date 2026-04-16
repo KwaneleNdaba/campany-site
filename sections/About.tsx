@@ -1,16 +1,65 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { AnimatedStats } from "../components/AnimatedStats";
 import { SectionHeading } from "../components/SectionHeading";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { mockFeatures } from "../utilities/mockData";
+
+interface AboutContent {
+  _id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  features: string[];
+  isActive: boolean;
+}
 
 export function About() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+  const [content, setContent] = useState<AboutContent | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchAboutContent();
+  }, []);
+
+  const fetchAboutContent = async () => {
+    try {
+      const response = await fetch('/api/about-content');
+      const data = await response.json();
+      if (data.content) {
+        setContent(data.content);
+      }
+    } catch (error) {
+      console.error('Error fetching about content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-amber-600" />
+      </section>
+    );
+  }
+
+  if (!content) {
+    return (
+      <section className="py-24 bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">No content available</h3>
+          <p className="text-slate-600">Please add about content in the admin panel</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-24 bg-slate-50 relative overflow-hidden">
@@ -25,31 +74,33 @@ export function About() {
             className="flex flex-col gap-6"
           >
             <SectionHeading
-              title="Shaping the Skyline Since 1994"
-              subtitle="We are a premier property development and construction company dedicated to creating spaces that inspire, function, and endure."
+              title={content.title}
+              subtitle={content.subtitle}
               align="left"
               className="mb-0"
             />
             
             <p className="text-lg text-slate-600 leading-relaxed">
-              With over three decades of industry expertise, we specialize in delivering high-end commercial, retail, residential, and industrial developments. Our commitment to innovation, sustainability, and uncompromising quality has made us a trusted partner for investors and communities alike.
+              {content.description}
             </p>
 
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-              {mockFeatures.map((feature, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 + 0.4 }}
-                  className="flex items-center gap-3 text-slate-700 font-medium"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-amber-500" />
-                  {feature}
-                </motion.li>
-              ))}
-            </ul>
+            {content.features.length > 0 && (
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                {content.features.map((feature, index) => (
+                  <motion.li
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 + 0.4 }}
+                    className="flex items-center gap-3 text-slate-700 font-medium"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-amber-500" />
+                    {feature}
+                  </motion.li>
+                ))}
+              </ul>
+            )}
 
             {isHomePage && (
               <motion.div
@@ -80,8 +131,8 @@ export function About() {
           >
             <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
-                alt="Modern Architecture"
+                src={content.image}
+                alt={content.title}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
