@@ -32,7 +32,10 @@ export function SectionHeading({ title, subtitle, align = "center", className }:
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg text-slate-600 max-w-2xl"
+          className={cn(
+            "text-lg text-slate-600 max-w-2xl",
+            align === "center" && "mx-auto"
+          )}
         >
           {subtitle}
         </motion.p>

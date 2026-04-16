@@ -247,6 +247,27 @@
 **Branch:** `main`
 - **`app/(site)/about/page.tsx`**: Fetches `GET /api/about-content` on mount; hero uses `image`, `title`, and `subtitle` with sensible fallbacks; loading state with spinner; removed unused mock data and icon imports. **`sections/About.tsx`** still provides the main about body (same API).
 
+### 19c. Services section heading — centered
+**Branch:** `main`
+- **`sections/Services.tsx`**: Eyebrow + `SectionHeading` use column `items-center`, `SectionHeading` `align="center"`; home keeps CTA row with `md:justify-between`.
+- **`components/SectionHeading.tsx`**: Subtitle uses `mx-auto` when `align="center"` for consistent width centering.
+
+### 19b. Admin services list — toast instead of `alert`
+**Branch:** `main`
+- **`app/admin/services/list/page.tsx`**: `react-hot-toast` with `<Toaster />`, loading/success/error for save and delete, upload feedback, fetch failure; removed all `alert()` calls.
+
+### 19a. Admin sidebar — logout pinned to bottom
+**Branch:** `main`
+- **`app/admin/layout.tsx`**: Sidebar uses `flex flex-col h-screen`; nav is `flex-1 min-h-0 overflow-y-auto`; logout sits in a `shrink-0` footer with top border (replaces `absolute bottom` inside scrollable aside).
+
+### 19. Services page — CMS integration (Process section unchanged)
+**Branch:** `main`
+- **Model:** `models/ServicesPageContent.ts` — banner + section eyebrow/title/subtitle, `isActive`
+- **APIs:** `GET`/`POST` `/api/services-page-content`, `PUT` `/api/services-page-content/[id]`; `GET`/`POST` `/api/services`, `PUT`/`DELETE` `/api/services/[id]` with `?includeInactive=true` on list GET for admin
+- **Admin:** `app/admin/services/list/page.tsx` (CRUD service cards, icon select, UploadThing/URL), `app/admin/services/content/page.tsx` (single page content doc, toast)
+- **Site:** `app/(site)/services/page.tsx` — hero from services page content API; **`sections/Services.tsx`** loads services + section copy from APIs, homepage falls back to mock cards when DB empty; **`sections/Process.tsx`** not modified
+- **Helper:** `lib/serviceIcons.ts` — maps stored icon name to Lucide component
+
 ### 16. Why Choose Us — models & APIs
 - **Models:** `models/WhyChooseUsContent.ts` (section copy, CTA, background, `isActive`), `models/WhyChooseDifferentiator.ts` (icon, title, description, gradient `color`, `order`, `isActive`)
 - **APIs:** `GET`/`POST` `/api/why-choose-us`, `PUT` `/api/why-choose-us/[id]`; `GET`/`POST` `/api/why-choose-differentiators`, `PUT`/`DELETE` `/api/why-choose-differentiators/[id]`; query `?includeInactive=true` for admin lists

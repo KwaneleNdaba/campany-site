@@ -88,7 +88,7 @@ export default function AboutPage() {
 
       <AboutSection />
       <WhyChooseUs />
-      <Team />
+      {/* <Team /> */}
     </motion.div>
   );
 }

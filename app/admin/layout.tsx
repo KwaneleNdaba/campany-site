@@ -99,12 +99,12 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Sidebar */}
       <aside
         className={cn(
-          'fixed left-0 top-0 h-full bg-slate-900 text-white transition-all duration-300 z-50 overflow-y-auto',
+          'fixed left-0 top-0 h-screen flex flex-col bg-slate-900 text-white transition-all duration-300 z-50',
           isSidebarOpen ? 'w-64' : 'w-20'
         )}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center justify-between px-4 border-b border-slate-800">
+        <div className="h-16 shrink-0 flex items-center justify-between px-4 border-b border-slate-800">
           {isSidebarOpen && (
             <span className="font-bold text-xl">Admin Panel</span>
           )}
@@ -121,8 +121,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </button>
         </div>
 
-        {/* Menu Items */}
-        <nav className="p-4 space-y-1">
+        {/* Menu Items — scrolls independently so logout stays at bottom */}
+        <nav className="flex-1 min-h-0 overflow-y-auto p-4 space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPath === item.href;
@@ -204,12 +204,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           })}
         </nav>
 
-        {/* Logout */}
-        <div className="absolute bottom-4 left-0 right-0 px-4">
+        {/* Logout — pinned to bottom of sidebar */}
+        <div className="shrink-0 border-t border-slate-800 p-4">
           <button
+            type="button"
             className="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-white transition-colors w-full"
           >
-            <LogOut className="w-5 h-5 flex-shrink-0" />
+            <LogOut className="w-5 h-5 shrink-0" />
             {isSidebarOpen && <span className="font-medium">Logout</span>}
           </button>
         </div>

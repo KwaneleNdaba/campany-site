@@ -51,7 +51,7 @@ export default function Contact() {
       </div>
 
       <ContactSection />
-      <Team />
+      {/* <Team /> */}
     </motion.div>
   );
 }
