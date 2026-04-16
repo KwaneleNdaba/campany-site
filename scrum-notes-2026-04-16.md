@@ -61,9 +61,10 @@
   - Resolved "next is not a function" error
 
 ### 7. Environment Configuration
-- Created `.env.local` file with:
-  - MongoDB connection URI
-  - JWT secret key placeholder
+- Consolidated all environment variables into `.env` file:
+  - MongoDB connection URI with credentials
+  - JWT secret key
+  - Brevo API configuration (email service)
 
 ### 8. Dependencies Installed
 - `mongoose` - MongoDB ODM
@@ -148,7 +149,7 @@
 ## Configuration Files Created
 
 ### Authentication System
-1. `.env.local` - Environment variables
+1. `.env` - Environment variables (MongoDB, JWT, Brevo)
 2. `lib/mongodb.ts` - Database connection
 3. `lib/auth.ts` - JWT utilities
 4. `models/User.ts` - User model
