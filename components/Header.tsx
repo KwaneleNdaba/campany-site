@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "../lib/utils";
 
@@ -70,7 +71,7 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
-            <img src="/PrideRock.png" alt="ModernSpaces Logo" className="w-12 h-12 object-contain" />
+            <Image src="/PrideRock.png" alt="ModernSpaces Logo" width={48} height={48} className="w-12 h-12 object-contain" />
           </div>
           <span
             className={cn(

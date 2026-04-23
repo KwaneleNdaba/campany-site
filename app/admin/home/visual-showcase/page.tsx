@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, Edit2, X, Loader2 } from 'lucide-react';
 import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
 import toast, { Toaster } from 'react-hot-toast';
+import Image from 'next/image';
 
 interface ShowcaseItem {
   _id?: string;
@@ -383,8 +384,8 @@ export default function VisualShowcasePage() {
                   <label className="block text-sm font-medium text-slate-700 mb-2">Image</label>
                   
                   {item.image && (
-                    <div className="mb-3 aspect-video rounded-lg overflow-hidden">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                    <div className="mb-3 relative aspect-video rounded-lg overflow-hidden">
+                      <Image src={item.image} alt={item.title} fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
                     </div>
                   )}
 
@@ -504,8 +505,8 @@ export default function VisualShowcasePage() {
                 <label className="block text-sm font-medium text-slate-700 mb-2">Background Image</label>
                 
                 {fullWidthSection.backgroundImage && (
-                  <div className="mb-3 aspect-[21/9] rounded-lg overflow-hidden">
-                    <img src={fullWidthSection.backgroundImage} alt="Preview" className="w-full h-full object-cover" />
+                  <div className="mb-3 relative aspect-[21/9] rounded-lg overflow-hidden">
+                    <Image src={fullWidthSection.backgroundImage} alt="Preview" fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
                   </div>
                 )}
 
@@ -567,8 +568,8 @@ export default function VisualShowcasePage() {
               <label className="block text-sm font-medium text-slate-700 mb-2">Background Image</label>
               
               {statsBanner.backgroundImage && (
-                <div className="mb-3 aspect-[21/9] rounded-lg overflow-hidden">
-                  <img src={statsBanner.backgroundImage} alt="Stats banner background" className="w-full h-full object-cover" />
+                <div className="mb-3 relative aspect-[21/9] rounded-lg overflow-hidden">
+                  <Image src={statsBanner.backgroundImage} alt="Stats banner background" fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
                 </div>
               )}
 
@@ -638,8 +639,8 @@ export default function VisualShowcasePage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Left Image</label>
               {twoColumnSection.leftImage && (
-                <div className="aspect-video rounded-lg overflow-hidden mb-2">
-                  <img src={twoColumnSection.leftImage} alt="Left" className="w-full h-full object-cover" />
+                <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
+                  <Image src={twoColumnSection.leftImage} alt="Left" fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
                 </div>
               )}
               <UploadButton<OurFileRouter, "imageUploader">
@@ -674,8 +675,8 @@ export default function VisualShowcasePage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Right Image</label>
               {twoColumnSection.rightImage && (
-                <div className="aspect-video rounded-lg overflow-hidden mb-2">
-                  <img src={twoColumnSection.rightImage} alt="Right" className="w-full h-full object-cover" />
+                <div className="relative aspect-video rounded-lg overflow-hidden mb-2">
+                  <Image src={twoColumnSection.rightImage} alt="Right" fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
                 </div>
               )}
               <UploadButton<OurFileRouter, "imageUploader">

@@ -14,6 +14,7 @@ import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
 import { CATEGORY_PAGE_SLUGS } from "@/lib/categoryPageSlugs";
+import Image from "next/image";
 
 interface Category {
   _id?: string;
@@ -299,9 +300,12 @@ export default function CategoriesPage() {
 
               {formData.image && (
                 <div className="mb-4 relative aspect-[4/5] max-w-xs rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={formData.image}
                     alt="Preview"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 20vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                   <button
@@ -406,9 +410,12 @@ export default function CategoriesPage() {
             >
               <div className="aspect-[4/5] relative">
                 {category.image ? (
-                  <img
+                  <Image
                     src={category.image}
                     alt={category.title}
+                    fill
+                    sizes="(max-width: 1280px) 50vw, 20vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                 ) : (

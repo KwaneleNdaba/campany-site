@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Image as ImageIcon, Upload, Loader2 } from 'lucide-react';
 import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import Image from 'next/image';
 
 interface CarouselItem {
   _id?: string;
@@ -252,9 +253,12 @@ export default function HeroCarouselPage() {
               
               {formData.image && (
                 <div className="mb-4 relative aspect-video rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={formData.image}
                     alt="Preview"
+                    fill
+                    sizes="100vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                   <button
@@ -370,9 +374,12 @@ export default function HeroCarouselPage() {
             >
               <div className="aspect-[16/9] relative">
                 {item.image ? (
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                 ) : (

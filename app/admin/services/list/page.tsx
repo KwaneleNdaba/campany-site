@@ -14,6 +14,7 @@ import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import { SERVICE_ICON_NAMES } from "@/lib/serviceIcons";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 interface ServiceItem {
   _id?: string;
@@ -289,9 +290,12 @@ export default function ServicesListPage() {
               </label>
               {formData.image && (
                 <div className="mb-4 relative aspect-video max-w-md rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={formData.image}
                     alt="Preview"
+                    fill
+                    sizes="100vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                   <button
@@ -394,9 +398,12 @@ export default function ServicesListPage() {
             >
               <div className="aspect-video relative bg-slate-100">
                 {item.image ? (
-                  <img
+                  <Image
                     src={item.image}
                     alt={item.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                 ) : (

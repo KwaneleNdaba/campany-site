@@ -11,6 +11,7 @@ import {
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 import {
   CATEGORY_PAGE_SLUGS,
   type CategoryPageSlug,
@@ -283,9 +284,12 @@ export default function CategoryPagesAdminPage() {
           </label>
           {p.heroImage ? (
             <div className="mb-3 max-h-48 max-w-xl overflow-hidden rounded-lg">
-              <img
+              <Image
                 src={p.heroImage}
                 alt=""
+                width={1200}
+                height={400}
+                unoptimized
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -723,9 +727,12 @@ export default function CategoryPagesAdminPage() {
             </label>
             {p.featuresSideImage ? (
               <div className="mb-3 max-h-40 max-w-md overflow-hidden rounded-lg">
-                <img
+                <Image
                   src={p.featuresSideImage}
                   alt=""
+                  width={900}
+                  height={360}
+                  unoptimized
                   className="h-full w-full object-cover"
                 />
               </div>

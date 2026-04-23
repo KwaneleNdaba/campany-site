@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Save, Loader2, Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import Image from 'next/image';
 
 interface ProjectsPageContent {
   title: string;
@@ -135,10 +136,13 @@ export default function ProjectsContentPage() {
           </label>
           
           {content.heroImage && (
-            <div className="mb-4 rounded-lg overflow-hidden border border-slate-200">
-              <img
+            <div className="mb-4 relative h-48 rounded-lg overflow-hidden border border-slate-200">
+              <Image
                 src={content.heroImage}
                 alt="Hero background"
+                fill
+                sizes="100vw"
+                unoptimized
                 className="w-full h-48 object-cover"
               />
             </div>

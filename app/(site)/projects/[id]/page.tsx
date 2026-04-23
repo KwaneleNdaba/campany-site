@@ -21,7 +21,10 @@ import {
 } from "lucide-react";
 import { mockProjectDetails } from "@/utilities/mockData";
 import Link from "next/link";
+import Image from "next/image";
 import type { ProjectDetailUI } from "@/lib/projectSerialize";
+
+const MotionImage = motion(Image);
 
 interface ProjectPageProps {
   params: Promise<{ id: string }>;
@@ -34,6 +37,7 @@ function mockDetailToUI(
     id: String(p.id),
     title: p.title,
     image: p.gallery?.[0] || "",
+    logo: "",
     category: p.category,
     location: p.location,
     status: p.status,
@@ -175,9 +179,12 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                 transition={{ duration: 0.5 }}
                 className="absolute inset-0"
               >
-                <img
+                <Image
                   src={gallery[currentImageIndex]}
                   alt={project.title}
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />
@@ -246,6 +253,20 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-serif leading-tight whitespace-pre-line">
                   {project.title}
                 </h1>
+
+                {project.logo ? (
+                  <div className="mb-6 inline-flex rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur-sm">
+                    <Image
+                      src={project.logo}
+                      alt={`${project.title} logo`}
+                      width={160}
+                      height={56}
+                      unoptimized
+                      referrerPolicy="no-referrer"
+                      className="h-12 w-auto object-contain"
+                    />
+                  </div>
+                ) : null}
 
                 <div className="flex flex-wrap gap-8 text-white">
                   <div>
@@ -446,9 +467,12 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                         className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
                         onClick={() => setSelectedImage(src)}
                       >
-                        <img
+                        <Image
                           src={src}
                           alt={`Gallery ${index + 1}`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 33vw"
+                          unoptimized
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           referrerPolicy="no-referrer"
                         />
@@ -496,9 +520,12 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                             className="group relative aspect-square overflow-hidden rounded-xl cursor-pointer"
                             onClick={() => setSelectedImage(src)}
                           >
-                            <img
+                            <Image
                               src={src}
                               alt={`${section.title} ${index + 1}`}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 33vw"
+                              unoptimized
                               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                               referrerPolicy="no-referrer"
                             />
@@ -649,12 +676,15 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
             >
               <X className="w-6 h-6" />
             </button>
-            <motion.img
+            <MotionImage
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               src={selectedImage}
               alt="Enlarged view"
+              width={1600}
+              height={900}
+              unoptimized
               className="max-w-full max-h-[90vh] rounded-lg"
               referrerPolicy="no-referrer"
               onClick={(e) => e.stopPropagation()}

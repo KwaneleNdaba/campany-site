@@ -32,6 +32,8 @@ export interface IProject extends Document {
   status: ProjectStatus;
   /** Card / listing thumbnail */
   image: string;
+  /** Optional brand/project logo */
+  logo?: string;
   description?: string;
   area?: string;
   units?: string;
@@ -88,6 +90,7 @@ const projectSchema = new Schema<IProject>(
       type: String,
       required: [true, "Image URL is required"],
     },
+    logo: { type: String, default: "" },
     description: { type: String, default: "", trim: true },
     area: { type: String, default: "" },
     units: { type: String, default: "" },
@@ -108,5 +111,11 @@ const projectSchema = new Schema<IProject>(
 
 const Project: Model<IProject> =
   mongoose.models.Project || mongoose.model<IProject>("Project", projectSchema);
+
+// In dev hot-reload, an older cached model can miss newly added fields like `logo`.
+// Ensure the path exists so writes are not silently stripped.
+if (!("logo" in Project.schema.paths)) {
+  Project.schema.add({ logo: { type: String, default: "" } });
+}
 
 export default Project;

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionHeading } from "../components/SectionHeading";
 import { mockSustainabilityInitiatives } from "../utilities/mockData";
+import Image from "next/image";
 
 export function Sustainability() {
   return (
@@ -61,9 +62,12 @@ export function Sustainability() {
             transition={{ duration: 0.8 }}
             className="relative h-full min-h-[500px] rounded-3xl overflow-hidden shadow-2xl"
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1927&auto=format&fit=crop"
               alt="Sustainable Building"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              unoptimized
               className="absolute inset-0 w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />

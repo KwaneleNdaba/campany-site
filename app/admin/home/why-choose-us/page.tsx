@@ -5,6 +5,7 @@ import { Save, Plus, Trash2, Edit2, X, Loader2 } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 interface Differentiator {
   _id?: string;
@@ -344,9 +345,12 @@ export default function WhyChooseUsPage() {
             </label>
             {content.backgroundImage ? (
               <div className="mb-3 aspect-video max-w-xl rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={content.backgroundImage}
                   alt=""
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -35,7 +35,11 @@ export async function PUT(
     await dbConnect();
     const { id } = await params;
     const data = await request.json();
-    const updated = await Project.findByIdAndUpdate(id, data, {
+    const payload = {
+      ...data,
+      logo: typeof data.logo === "string" ? data.logo.trim() : "",
+    };
+    const updated = await Project.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
     }).lean();

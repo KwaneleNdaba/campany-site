@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Save, Plus, Trash2, Edit2, X, Loader2 } from 'lucide-react';
 import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import Image from 'next/image';
 
 interface AboutContent {
   _id?: string;
@@ -287,10 +288,13 @@ export default function AboutPage() {
             </label>
 
             {content.image && (
-              <div className="mb-4 aspect-video rounded-lg overflow-hidden">
-                <img
+              <div className="mb-4 relative aspect-video rounded-lg overflow-hidden">
+                <Image
                   src={content.image}
                   alt="About preview"
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
                 <button

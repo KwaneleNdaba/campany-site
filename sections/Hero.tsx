@@ -120,7 +120,13 @@ export function Hero() {
               className="bg-black/60 backdrop-blur-sm border-l-4 border-amber-500 p-8 md:p-12 max-w-2xl text-white"
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-serif whitespace-pre-line">
-                {carouselItems[currentIndex].title}
+                {carouselItems[currentIndex].title
+                  .split(/\r?\n/)
+                  .map((line, idx) => (
+                    <span key={idx} className="block">
+                      {line}
+                    </span>
+                  ))}
               </h1>
               <div className="flex items-center gap-4 mb-6">
                 <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 uppercase tracking-wider">

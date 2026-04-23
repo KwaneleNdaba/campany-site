@@ -5,6 +5,7 @@ import { Save, Loader2 } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 interface ServicesPageContent {
   _id?: string;
@@ -151,9 +152,12 @@ export default function ServicesContentPage() {
             </label>
             {content.bannerImage && (
               <div className="mb-4 relative aspect-video max-w-lg rounded-lg overflow-hidden border border-slate-200">
-                <img
+                <Image
                   src={content.bannerImage}
                   alt="Banner"
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
               </div>

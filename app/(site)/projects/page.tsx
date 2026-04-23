@@ -14,6 +14,7 @@ interface ApiProject {
   location: string;
   status: string;
   image: string;
+  logo?: string;
 }
 
 interface ProjectsPageContent {
@@ -79,6 +80,7 @@ export default function Projects() {
         location: p.location,
         status: p.status,
         image: p.image,
+        logo: "",
       }));
 
   const categories = [
@@ -197,6 +199,7 @@ export default function Projects() {
                           location={project.location}
                           status={project.status}
                           image={project.image}
+                          logo={project.logo}
                           index={index}
                         />
                       </motion.div>

@@ -14,6 +14,7 @@ import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
 import type { ProjectDetailUI } from "@/lib/projectSerialize";
+import Image from "next/image";
 
 const TYPES = [
   "Commercial",
@@ -36,6 +37,7 @@ interface ListItem {
   location: string;
   status: string;
   image: string;
+  logo?: string;
   order: number;
   isActive: boolean;
 }
@@ -77,6 +79,7 @@ export default function ProjectsListPage() {
   const [location, setLocation] = useState("");
   const [status, setStatus] = useState<string>("Planning");
   const [image, setImage] = useState("");
+  const [logo, setLogo] = useState("");
   const [description, setDescription] = useState("");
   const [area, setArea] = useState("");
   const [units, setUnits] = useState("");
@@ -116,6 +119,7 @@ export default function ProjectsListPage() {
     setLocation("");
     setStatus("Planning");
     setImage("");
+  setLogo("");
     setDescription("");
     setArea("");
     setUnits("");
@@ -141,6 +145,7 @@ export default function ProjectsListPage() {
     setLocation(p.location);
     setStatus(p.status);
     setImage(p.image || "");
+  setLogo(p.logo || "");
     setDescription(p.description);
     setArea(p.details.area === "—" ? "" : p.details.area);
     setUnits(p.details.units === "—" ? "" : p.details.units);
@@ -170,6 +175,7 @@ export default function ProjectsListPage() {
     setEditingId(item._id);
     setIsAdding(false);
     setImage(item.image);
+  setLogo(item.logo || "");
     setOrder(item.order);
     setIsActive(item.isActive);
     try {
@@ -206,6 +212,7 @@ export default function ProjectsListPage() {
       location: location.trim(),
       status,
       image: image.trim(),
+  logo: logo.trim(),
       description: description.trim(),
       area: area.trim(),
       units: units.trim(),
@@ -463,9 +470,12 @@ export default function ProjectsListPage() {
                   Card image * (projects grid) — UploadThing
                 </label>
                 {image && (
-                  <img
+                  <Image
                     src={image}
                     alt=""
+                    width={320}
+                    height={128}
+                    unoptimized
                     className="h-32 rounded-lg object-cover mb-2 max-w-xs border"
                   />
                 )}
@@ -492,6 +502,48 @@ export default function ProjectsListPage() {
                     onChange={(e) => setImage(e.target.value)}
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm"
                     placeholder="Or paste existing image URL"
+                  />
+                </div>
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Project logo (optional)
+                </label>
+                {logo && (
+                  <div className="mb-2 inline-flex rounded-lg border border-slate-200 bg-white p-2">
+                    <Image
+                      src={logo}
+                      alt="Project logo"
+                      width={140}
+                      height={56}
+                      unoptimized
+                      className="h-12 w-auto object-contain"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-col gap-2 max-w-md">
+                  <UploadButton<OurFileRouter, "imageUploader">
+                    endpoint="imageUploader"
+                    onClientUploadComplete={(res) => {
+                      if (res?.[0]) {
+                        setLogo(res[0].url);
+                        toast.success("Logo uploaded");
+                      }
+                    }}
+                    onUploadError={(err: Error) => {
+                      toast.error(err.message);
+                    }}
+                    appearance={uploadAppearance}
+                    content={{
+                      button: "Upload logo",
+                      allowedContent: "Images up to 16MB",
+                    }}
+                  />
+                  <input
+                    value={logo}
+                    onChange={(e) => setLogo(e.target.value)}
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm"
+                    placeholder="Or paste logo URL"
                   />
                 </div>
               </div>
@@ -582,9 +634,12 @@ export default function ProjectsListPage() {
                           key={`${url}-${gi}`}
                           className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-slate-100"
                         >
-                          <img
+                          <Image
                             src={url}
                             alt=""
+                            width={80}
+                            height={80}
+                            unoptimized
                             className="h-full w-full object-cover"
                           />
                           <button
@@ -778,9 +833,12 @@ export default function ProjectsListPage() {
                             key={`${url}-${ii}`}
                             className="relative h-16 w-16 shrink-0 overflow-hidden rounded border border-slate-200 bg-white"
                           >
-                            <img
+                            <Image
                               src={url}
                               alt=""
+                              width={64}
+                              height={64}
+                              unoptimized
                               className="h-full w-full object-cover"
                             />
                             <button
@@ -885,9 +943,12 @@ export default function ProjectsListPage() {
             >
               <div className="aspect-video bg-slate-100 relative">
                 {p.image ? (
-                  <img
+                  <Image
                     src={p.image}
                     alt=""
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                    unoptimized
                     className="w-full h-full object-cover"
                   />
                 ) : (
@@ -898,6 +959,18 @@ export default function ProjectsListPage() {
                     INACTIVE
                   </span>
                 )}
+                {p.logo ? (
+                  <div className="absolute left-2 top-2 rounded-lg bg-white/95 p-1.5 shadow">
+                    <Image
+                      src={p.logo}
+                      alt={`${p.title} logo`}
+                      width={72}
+                      height={30}
+                      unoptimized
+                      className="h-7 w-auto object-contain"
+                    />
+                  </div>
+                ) : null}
               </div>
               <div className="p-4">
                 <h3 className="font-bold text-slate-900 whitespace-pre-line">{p.title}</h3>

@@ -5,6 +5,7 @@ import { Save, Image as ImageIcon, Loader2 } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 interface CTASection {
   _id?: string;
@@ -155,10 +156,13 @@ export default function CTASectionPage() {
               Background Image
             </label>
             {ctaSection.backgroundImage ? (
-              <div className="mb-3 aspect-video max-w-xl rounded-lg overflow-hidden">
-                <img
+              <div className="mb-3 relative aspect-video max-w-xl rounded-lg overflow-hidden">
+                <Image
                   src={ctaSection.backgroundImage}
                   alt=""
+                  fill
+                  sizes="100vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
               </div>

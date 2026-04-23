@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
       location: p.location,
       status: p.status,
       image: p.image,
+      logo: p.logo || "",
       order: p.order,
       isActive: p.isActive,
     }));
@@ -34,7 +35,11 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect();
     const data = await request.json();
-    const created = await Project.create(data);
+    const payload = {
+      ...data,
+      logo: typeof data.logo === "string" ? data.logo.trim() : "",
+    };
+    const created = await Project.create(payload);
     const doc = created.toObject();
     return NextResponse.json(
       {
@@ -47,6 +52,7 @@ export async function POST(request: NextRequest) {
           location: created.location,
           status: created.status,
           image: created.image,
+          logo: created.logo || "",
           order: created.order,
           isActive: created.isActive,
         },

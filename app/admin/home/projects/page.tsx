@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Image as ImageIcon, Eye } from 'lucide-react';
 import { mockProjects } from '@/utilities/mockData';
+import Image from 'next/image';
 
 interface Project {
   title: string;
@@ -217,9 +218,12 @@ export default function ProjectsPage() {
           >
             <div className="aspect-[4/3] relative">
               {project.image ? (
-                <img
+                <Image
                   src={project.image}
                   alt={project.title}
+                  fill
+                  sizes="(max-width: 1280px) 50vw, 25vw"
+                  unoptimized
                   className="w-full h-full object-cover"
                 />
               ) : (

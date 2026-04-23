@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProjectCardProps {
   /** Mongo `_id` or legacy numeric id for mock detail pages */
@@ -12,6 +13,7 @@ interface ProjectCardProps {
   location: string;
   status: string;
   image: string;
+  logo?: string;
   index: number;
 }
 
@@ -22,6 +24,7 @@ export function ProjectCard({
   location,
   status,
   image,
+  logo,
   index,
 }: ProjectCardProps) {
   const projectId = id ?? String(index + 1);
@@ -35,14 +38,31 @@ export function ProjectCard({
         transition={{ duration: 0.6, delay: index * 0.15 }}
         className="group relative overflow-hidden rounded-3xl aspect-[4/5] md:aspect-[3/4] bg-slate-100 cursor-pointer"
       >
-        <img
+        <Image
           src={image}
           alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          unoptimized
           referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {logo ? (
+          <div className="absolute left-4 top-4 z-10 rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur-sm">
+            <Image
+              src={logo}
+              alt={`${title} logo`}
+              width={88}
+              height={36}
+              unoptimized
+              referrerPolicy="no-referrer"
+              className="h-9 w-auto object-contain"
+            />
+          </div>
+        ) : null}
 
         <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end h-full">
           <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { LucideIcon, ArrowRight } from "lucide-react";
+import Image from "next/image";
 
 interface ServiceCardProps {
   title: string;
@@ -22,9 +23,12 @@ export function ServiceCard({ title, description, icon: Icon, image, index }: Se
     >
       {/* Image Section */}
       <div className="relative h-64 overflow-hidden">
-        <img 
+        <Image 
           src={image} 
           alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, 33vw"
+          unoptimized
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />

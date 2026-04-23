@@ -4,6 +4,8 @@ export type ProjectDetailUI = {
   title: string;
   /** Listing / card thumbnail */
   image: string;
+  /** Optional brand/project logo */
+  logo?: string;
   category: string;
   location: string;
   status: string;
@@ -38,6 +40,7 @@ export type ProjectPlain = {
   location: string;
   status: string;
   image: string;
+  logo?: string;
   description?: string;
   area?: string;
   units?: string;
@@ -79,6 +82,7 @@ export function projectDocToUI(doc: ProjectPlain): ProjectDetailUI {
     id,
     title: doc.title,
     image: doc.image,
+  logo: doc.logo?.trim() || "",
     category: doc.type,
     location: doc.location,
     status: doc.status,

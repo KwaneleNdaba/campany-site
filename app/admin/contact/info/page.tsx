@@ -5,6 +5,7 @@ import { Save, Loader2, Plus, Trash2, MapPin } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import toast, { Toaster } from "react-hot-toast";
+import Image from "next/image";
 
 interface AddressForm {
   title: string;
@@ -203,9 +204,12 @@ export default function ContactInfoPage() {
         <h3 className="text-lg font-bold text-slate-900">Banner image</h3>
         {info.image && (
           <div className="relative aspect-[21/9] max-w-3xl rounded-lg overflow-hidden border border-slate-200">
-            <img
+            <Image
               src={info.image}
               alt="Contact banner"
+              fill
+              sizes="100vw"
+              unoptimized
               className="w-full h-full object-cover"
             />
           </div>

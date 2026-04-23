@@ -2,6 +2,7 @@
 
 import { Save, Image as ImageIcon } from 'lucide-react';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export default function AboutContentPage() {
   const [content, setContent] = useState({
@@ -80,8 +81,8 @@ export default function AboutContentPage() {
         </div>
 
         {content.image && (
-          <div className="aspect-video rounded-lg overflow-hidden">
-            <img src={content.image} alt="Preview" className="w-full h-full object-cover" />
+          <div className="relative aspect-video rounded-lg overflow-hidden">
+            <Image src={content.image} alt="Preview" fill sizes="100vw" unoptimized className="w-full h-full object-cover" />
           </div>
         )}
       </div>

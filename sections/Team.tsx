@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { mockTeam } from "../utilities/mockData";
+import Image from "next/image";
 
 export function Team() {
   return (
@@ -35,9 +36,12 @@ export function Team() {
               className="group"
             >
               <div className="relative overflow-hidden mb-6 aspect-[3/4]">
-                <img 
+                <Image 
                   src={member.image} 
                   alt={member.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                  unoptimized
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />

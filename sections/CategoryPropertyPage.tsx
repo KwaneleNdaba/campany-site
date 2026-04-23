@@ -8,6 +8,7 @@ import {
   Award,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import type { CategoryPageSlug } from "@/lib/categoryPageSlugs";
 import type { CategoryPagePublic } from "@/lib/categoryPageDefaults";
 import { getDefaultCategoryPage } from "@/lib/categoryPageDefaults";
@@ -422,10 +423,13 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
                   viewport={{ once: true }}
                   className="relative"
                 >
-                  <div className="aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
-                    <img
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl">
+                    <Image
                       src={page.featuresSideImage}
                       alt=""
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      unoptimized
                       className="h-full w-full object-cover"
                       referrerPolicy="no-referrer"
                     />

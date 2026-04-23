@@ -15,6 +15,7 @@ interface ApiProject {
   location: string;
   status: string;
   image: string;
+  logo?: string;
 }
 
 type DisplayProject = {
@@ -24,6 +25,7 @@ type DisplayProject = {
   location: string;
   status: string;
   image: string;
+  logo?: string;
 };
 
 export function Projects() {
@@ -66,6 +68,7 @@ export function Projects() {
         location: p.location,
         status: p.status,
         image: p.image,
+        logo: p.logo,
       }));
     }
     const mockSlice = isHomePage ? mockProjects.slice(0, 8) : mockProjects;
@@ -75,6 +78,7 @@ export function Projects() {
       location: p.location,
       status: p.status,
       image: p.image,
+      logo: "",
     }));
   })();
 
@@ -122,6 +126,7 @@ export function Projects() {
                 location={project.location}
                 status={project.status}
                 image={project.image}
+                logo={project.logo}
                 index={index}
               />
             ))}

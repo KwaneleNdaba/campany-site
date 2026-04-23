@@ -6,6 +6,7 @@ import { AnimatedStats } from "../components/AnimatedStats";
 import { SectionHeading } from "../components/SectionHeading";
 import { CheckCircle2, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 interface AboutContent {
@@ -129,10 +130,13 @@ export function About() {
             transition={{ duration: 0.8 }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-              <img
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+              <Image
                 src={content.image}
                 alt={content.title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                unoptimized
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
