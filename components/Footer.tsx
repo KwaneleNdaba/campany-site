@@ -15,7 +15,7 @@ export function Footer() {
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-2xl tracking-tight">
               <Image src="/PrideRock.png" alt="Pride Rock Property Group Logo" width={48} height={48} className="w-12 h-12 object-contain" />
-              Pride Rock
+            Pride Rock Property Group
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               Pioneering the future of property development with innovative, sustainable, and premium spaces.
