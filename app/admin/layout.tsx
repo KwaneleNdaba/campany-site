@@ -46,7 +46,7 @@ const menuItems: MenuItem[] = [
         href: "/admin/home/category-pages",
       },
       { icon: FileText, label: 'About Section', href: '/admin/home/about' },
-      { icon: Briefcase, label: 'Projects Section', href: '/admin/home/projects' },
+      { icon: Briefcase, label: 'Featured Projects',  href: "/admin/home/featured-projects", },
       { icon: Image, label: 'Visual Showcase', href: '/admin/home/visual-showcase' },
       { icon: Settings, label: 'Why Choose Us', href: '/admin/home/why-choose-us' },
       { icon: FileText, label: 'CTA Section', href: '/admin/home/cta-section' },

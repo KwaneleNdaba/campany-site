@@ -32,8 +32,7 @@ function linesToText(lines: string[]) {
 function textToLines(text: string) {
   return text
     .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean);
+    .map((l) => l.trimEnd()); // Only trim trailing whitespace, keep empty lines
 }
 
 export default function ContactInfoPage() {

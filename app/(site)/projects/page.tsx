@@ -28,7 +28,7 @@ export default function Projects() {
   const [pageContent, setPageContent] = useState<ProjectsPageContent>({
     title: "Our Projects",
     description: "A showcase of our most iconic developments",
-    heroImage: "https://www.atterbury.co.za/wp-content/uploads/2021/03/Mall-of-Africa-outdoor-area.1.jpg",
+    heroImage: "#",
   });
   const [listReady, setListReady] = useState(false);
   /** True once a successful API response was received (even if empty). */

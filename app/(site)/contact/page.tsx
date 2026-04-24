@@ -116,13 +116,11 @@ export default function Contact() {
               transition={{ duration: 0.5 }}
               className="w-full max-w-3xl bg-white p-10 md:p-14 shadow-lg border-b-4 border-amber-500"
             >
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">
+              <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 whitespace-pre-line">
                 {addresses[0].title}
               </h3>
-              <div className="text-slate-600 space-y-2 text-lg leading-relaxed">
-                {addresses[0].lines.map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
+              <div className="text-slate-600 text-lg leading-relaxed whitespace-pre-line">
+                {addresses[0].lines.join("\n")}
               </div>
             </motion.div>
           </div>
@@ -136,13 +134,11 @@ export default function Contact() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white p-8 shadow-lg border-b-4 border-amber-500"
               >
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">
+                <h3 className="text-2xl font-bold text-slate-900 mb-6 whitespace-pre-line">
                   {office.title}
                 </h3>
-                <div className="text-slate-600 space-y-1">
-                  {office.lines.map((line, i) => (
-                    <p key={i}>{line}</p>
-                  ))}
+                <div className="text-slate-600 whitespace-pre-line">
+                  {office.lines.join("\n")}
                 </div>
               </motion.div>
             ))}

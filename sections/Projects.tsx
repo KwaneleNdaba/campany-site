@@ -6,7 +6,6 @@ import { SectionHeading } from "../components/SectionHeading";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
-import { mockProjects } from "../utilities/mockData";
 
 interface ApiProject {
   _id: string;
@@ -33,17 +32,31 @@ export function Projects() {
   const isHomePage = pathname === "/";
 
   const [apiProjects, setApiProjects] = useState<ApiProject[] | null>(null);
+  const [content, setContent] = useState({
+    title: "Featured Developments",
+    subtitle: "A showcase of our most iconic projects that redefine the urban landscape and set new standards in property development.",
+  });
 
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       try {
-        const res = await fetch("/api/projects");
-        const data = await res.json();
-        if (!cancelled && res.ok) {
-          setApiProjects(Array.isArray(data.projects) ? data.projects : []);
+        // Fetch featured projects configuration from API
+        const projectsRes = await fetch("/api/home-featured-projects");
+        const projectsData = await projectsRes.json();
+        
+        // Fetch content (title & subtitle)
+        const contentRes = await fetch("/api/home-featured-projects-content");
+        const contentData = await contentRes.json();
+        
+        if (!cancelled && projectsRes.ok && Array.isArray(projectsData.projects)) {
+          setApiProjects(projectsData.projects);
         } else if (!cancelled) {
           setApiProjects([]);
+        }
+
+        if (!cancelled && contentRes.ok && contentData.content) {
+          setContent(contentData.content);
         }
       } catch {
         if (!cancelled) setApiProjects([]);
@@ -59,28 +72,15 @@ export function Projects() {
 
   const displayProjects: DisplayProject[] = (() => {
     if (apiProjects === null) return [];
-    if (apiProjects.length > 0) {
-      // Always limit to 8 projects
-      const slice = apiProjects.slice(0, 8);
-      return slice.map((p) => ({
-        id: p._id,
-        title: p.title,
-        type: p.type,
-        location: p.location,
-        status: p.status,
-        image: p.image,
-        logo: p.logo,
-      }));
-    }
-    // Fallback to mock data, limited to 8
-    const mockSlice = mockProjects.slice(0, 8);
-    return mockSlice.map((p) => ({
+    // Featured projects are already ordered and limited by the API
+    return apiProjects.map((p) => ({
+      id: p._id,
       title: p.title,
       type: p.type,
       location: p.location,
       status: p.status,
       image: p.image,
-      logo: "",
+      logo: p.logo,
     }));
   })();
 
@@ -96,8 +96,8 @@ export function Projects() {
         >
           <div className="flex w-full flex-col items-center text-center md:flex-1">
             <SectionHeading
-              title="Featured Developments"
-              subtitle="A showcase of our most iconic projects that redefine the urban landscape and set new standards in property development."
+              title={content.title}
+              subtitle={content.subtitle}
               align="center"
               className="mb-0"
             />

@@ -105,7 +105,7 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
     : "bg-gradient-to-r from-slate-900/95 via-slate-900/80 to-transparent";
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white mt-6">
       <section
         className={`relative flex h-[45vh] items-center overflow-hidden ${heroCentered ? "justify-center" : ""}`}
       >
