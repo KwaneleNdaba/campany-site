@@ -2,19 +2,20 @@
 
 import { Facebook, Twitter, Linkedin, Instagram, Building2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-slate-400 py-16 border-t border-slate-900">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+    <footer className="bg-slate-950 text-slate-400 py-16 border-t border-slate-900 ">
+      <div className="container mx-auto px-6 md:px-12 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-2xl tracking-tight">
-              <Building2 className="w-8 h-8 text-amber-500" />
-              ModernSpaces
+                <Image src="/PrideRock.png" alt="ModernSpaces Logo" width={48} height={48} className="w-12 h-12 object-contain" />
+              Pride Rock
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               Pioneering the future of property development with innovative, sustainable, and premium spaces.
