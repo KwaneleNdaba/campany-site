@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, MapPin, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CarouselItem {
   _id: string;
@@ -32,27 +33,27 @@ export function Hero() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [carouselRes, categoriesRes] = await Promise.all([
+          fetch("/api/hero-carousel"),
+          fetch("/api/categories"),
+        ]);
+
+        const carouselData = await carouselRes.json();
+        const categoriesData = await categoriesRes.json();
+
+        setCarouselItems(carouselData.items || []);
+        setCategories(categoriesData.categories || []);
+      } catch (error) {
+        console.error("Error fetching hero data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const [carouselRes, categoriesRes] = await Promise.all([
-        fetch('/api/hero-carousel'),
-        fetch('/api/categories')
-      ]);
-
-      const carouselData = await carouselRes.json();
-      const categoriesData = await categoriesRes.json();
-
-      setCarouselItems(carouselData.items || []);
-      setCategories(categoriesData.categories || []);
-    } catch (error) {
-      console.error('Error fetching hero data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
@@ -63,7 +64,7 @@ export function Hero() {
   };
 
   useEffect(() => {
-    if (carouselItems.length > 0) {
+    if (carouselItems.length > 1) {
       const timer = setInterval(nextSlide, 5000);
       return () => clearInterval(timer);
     }
@@ -71,111 +72,149 @@ export function Hero() {
 
   if (loading) {
     return (
-      <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center bg-slate-100">
-        <Loader2 className="w-12 h-12 animate-spin text-amber-600" />
+      <section className="relative flex h-[65svh] min-h-[460px] w-full items-center justify-center bg-slate-100">
+        <Loader2 className="h-12 w-12 animate-spin text-amber-600" />
       </section>
     );
   }
 
   if (carouselItems.length === 0) {
     return (
-      <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center bg-slate-100">
+      <section className="relative flex h-[65svh] min-h-[460px] w-full items-center justify-center bg-slate-100 px-4">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">No content available</h2>
+          <h2 className="mb-2 text-2xl font-bold text-slate-900">No content available</h2>
           <p className="text-slate-600">Please add carousel items in the admin panel</p>
         </div>
       </section>
     );
   }
 
+  const active = carouselItems[currentIndex];
+  const titleLines = active.title
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 2);
+
+  const supportText = active.description.trim();
+
   return (
-    <section className="relative w-full">
-      {/* Carousel */}
-      <div className="relative h-[60vh] md:h-[70vh] w-full overflow-hidden">
+    <section className="relative w-full overflow-x-clip">
+      <div className="relative h-[68svh] min-h-[520px] w-full overflow-hidden sm:h-[70svh] md:h-[74vh]">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
-            key={currentIndex}
+            key={active._id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.35 }}
             className="absolute inset-0"
           >
-            <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${carouselItems[currentIndex].image})` }}
+            <Image
+              src={active.image}
+              alt={active.title}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+              unoptimized
+              referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-black/20" />
+            <div className="absolute inset-0 bg-slate-900/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/30 to-transparent" />
           </motion.div>
         </AnimatePresence>
 
-        {/* Content Box */}
-        <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-6 md:px-12 relative">
-            <motion.div 
-              key={`content-${currentIndex}`}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-black/60 backdrop-blur-sm border-l-4 border-amber-500 p-8 md:p-12 max-w-2xl text-white"
+        <div className="absolute inset-x-0 bottom-0 px-4 pb-6 pt-12 sm:px-6 md:px-10 md:pb-10">
+          <div className="mx-auto w-full max-w-6xl">
+            <motion.div
+              key={`content-${active._id}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="max-w-xl rounded-2xl border border-white/20 bg-black/55 p-5 text-white shadow-xl backdrop-blur-md sm:p-6"
             >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-serif whitespace-pre-line">
-                {carouselItems[currentIndex].title
-                  .split(/\r?\n/)
-                  .map((line, idx) => (
-                    <span key={idx} className="block">
-                      {line}
-                    </span>
-                  ))}
+              <h1 className="mb-3 text-3xl font-bold leading-tight tracking-tight font-serif sm:text-4xl">
+                {titleLines.map((line, idx) => (
+                  <span key={idx} className="block">
+                    {line}
+                  </span>
+                ))}
               </h1>
-              <div className="flex items-center gap-4 mb-6">
-                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 uppercase tracking-wider">
-                  {carouselItems[currentIndex].status}
+
+              <div className="mb-4 flex flex-wrap items-center gap-2.5 text-sm">
+                <span className="rounded-md bg-amber-500 px-2.5 py-1 font-semibold text-slate-900">
+                  {active.status}
                 </span>
-                <div className="flex items-center gap-1 text-slate-300">
-                  <MapPin className="w-4 h-4" />
-                  <span className="text-sm">{carouselItems[currentIndex].location}</span>
+                <div className="inline-flex items-center gap-1.5 text-slate-100/95">
+                  <MapPin className="h-4 w-4" />
+                  <span className="line-clamp-1">{active.location}</span>
                 </div>
               </div>
-              <p className="text-lg text-slate-200 leading-relaxed">
-                {carouselItems[currentIndex].description}
+
+              <p className="mb-5 line-clamp-2 text-sm leading-relaxed text-slate-100/95 sm:text-base">
+                {supportText}
               </p>
+
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+                <Link
+                  href="/projects"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-500 px-5 text-sm font-semibold text-slate-900 shadow-md transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                >
+                  View Projects
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                >
+                  Contact Us
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>
 
-        {/* Navigation Arrows */}
-        <button 
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-colors z-10"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button 
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-colors z-10"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        {carouselItems.length > 1 && (
+          <>
+            <button
+              onClick={prevSlide}
+              aria-label="Previous slide"
+              className="absolute left-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white transition hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-6"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={nextSlide}
+              aria-label="Next slide"
+              className="absolute right-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white transition hover:bg-black/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-6"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+          </>
+        )}
       </div>
 
-      {/* Categories Row */}
       {categories.length > 0 && (
-        <div className="container mx-auto px-6 md:px-12 relative z-20 -mt-16 md:-mt-24 pb-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="container relative z-20 mx-auto -mt-2 px-4 pb-10 sm:px-6 md:-mt-6 md:px-10">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
             {categories.map((category) => (
-              <Link 
-                key={category._id} 
+              <Link
+                key={category._id}
                 href={category.link}
-                className="group relative h-48 md:h-64 overflow-hidden block border-b-4 border-transparent hover:border-amber-500 transition-all duration-300"
+                className="group relative block h-32 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm transition hover:shadow-md sm:h-36 md:h-44"
               >
-                <div 
-                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${category.image})` }}
+                <Image
+                  src={category.image}
+                  alt={category.title}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  unoptimized
+                  referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-blue-950/70 group-hover:bg-blue-950/50 transition-colors duration-300" />
-                <div className="absolute bottom-6 left-6">
-                  <h3 className="text-white text-xl md:text-2xl font-medium tracking-wide">
+                <div className="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/35" />
+                <div className="absolute inset-x-3 bottom-3">
+                  <h3 className="line-clamp-2 text-sm font-semibold text-white sm:text-base">
                     {category.title}
                   </h3>
                 </div>

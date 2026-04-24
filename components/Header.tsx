@@ -9,31 +9,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "../lib/utils";
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    // Set initial value
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -60,47 +37,36 @@ export function Header() {
 
   return (
     <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled || pathname !== "/"
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-4"
-          : "bg-transparent py-6"
-      )}
+      className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/90"
     >
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-5 md:h-[68px] md:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
-            <Image src="/PrideRock.png" alt="Pride Rock Property Group Logo" width={48} height={48} className="w-12 h-12 object-contain" />
+        <Link href="/" className="flex min-w-0 items-center gap-2">
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-slate-50 sm:h-11 sm:w-11">
+            <Image
+              src="/PrideRock.png"
+              alt="Pride Rock Property Group Logo"
+              width={44}
+              height={44}
+              className="h-9 w-9 object-contain sm:h-10 sm:w-10"
+            />
           </div>
-          <span
-            className={cn(
-              "font-bold text-xl tracking-tight transition-colors duration-300",
-              isScrolled || pathname !== "/" ? "text-slate-900" : "text-white"
-            )}
-          >
-            Pride Rock Property Group
+          <span className="truncate text-sm font-semibold tracking-tight text-slate-900 sm:text-base">
+            Pride Rock
           </span>
         </Link>
 
-        {/* Desktop Nav - Visible on large screens */}
-        <nav 
-          className="items-center gap-8 relative z-50"
-          style={{
-            display: isDesktop ? 'flex' : 'none'
-          }}
-        >
+        {/* Desktop Nav */}
+        <nav className="relative z-50 hidden items-center gap-7 lg:flex">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
               className={cn(
-                "text-sm font-semibold transition-all duration-200 relative py-2",
+                "relative py-2 text-sm font-semibold transition-colors duration-200",
                 pathname === link.href
                   ? "text-amber-600"
-                  : isScrolled || pathname !== "/"
-                  ? "text-slate-700 hover:text-amber-600"
-                  : "text-white hover:text-amber-400",
+                  : "text-slate-700 hover:text-amber-600",
                 "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-amber-600 after:transition-all after:duration-300 hover:after:w-full"
               )}
             >
@@ -109,19 +75,12 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Mobile Menu Toggle - Visible only on mobile */}
+        {/* Mobile Menu Toggle */}
         <button
           type="button"
-          className={cn(
-            "p-2.5 rounded-lg transition-colors",
-            isScrolled || pathname !== "/"
-              ? "text-slate-900 hover:bg-slate-100"
-              : "text-white hover:bg-white/10"
-          )}
-          style={{
-            display: isDesktop ? 'none' : 'block'
-          }}
+          className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-xl text-slate-900 transition-colors hover:bg-slate-100 lg:hidden"
           aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu-panel"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
@@ -137,48 +96,47 @@ export function Header() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop with darker overlay */}
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
+              transition={{ duration: 0.18 }}
               className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40"
-              style={{ display: isDesktop ? 'none' : 'block' }}
               onClick={() => setIsMobileMenuOpen(false)}
             />
-            
-            {/* Mobile Menu Panel - Slides in from right */}
+
+            {/* Mobile Menu Panel */}
             <motion.div
+              id="mobile-menu-panel"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
-              className="fixed top-0 right-0 h-full w-[320px] max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col"
-              style={{ display: isDesktop ? 'none' : 'flex' }}
+              transition={{ type: "spring", damping: 28, stiffness: 320 }}
+              className="fixed right-0 top-0 z-50 flex h-full w-[84vw] max-w-[320px] flex-col bg-white shadow-2xl lg:hidden"
             >
               {/* Menu Header */}
-              <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200">
+              <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
                 <h2 className="text-lg font-bold text-slate-900">Menu</h2>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg transition-colors hover:bg-slate-100"
                   aria-label="Close menu"
                 >
                   <X className="w-5 h-5 text-slate-700" />
                 </button>
               </div>
-              
+
               {/* Navigation Links */}
-              <nav className="flex-1 overflow-y-auto px-4 py-6">
-                <div className="flex flex-col gap-2">
+              <nav className="flex-1 overflow-y-auto px-4 py-5">
+                <div className="flex flex-col gap-1.5">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={cn(
-                        "px-4 py-2.5 rounded-lg text-base font-medium transition-all duration-200",
+                        "rounded-lg px-4 py-3 text-base font-medium transition-all duration-200",
                         pathname === link.href
                           ? "bg-amber-50 text-amber-700 font-semibold"
                           : "text-slate-700 hover:bg-slate-50 active:bg-slate-100"
