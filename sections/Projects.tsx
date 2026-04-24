@@ -72,7 +72,6 @@ export function Projects() {
 
   const displayProjects: DisplayProject[] = (() => {
     if (apiProjects === null) return [];
-    // Featured projects are already ordered and limited by the API
     return apiProjects.map((p) => ({
       id: p._id,
       title: p.title,
